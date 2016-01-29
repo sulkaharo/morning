@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
 	private GridDefinition Grid;
 
 	private float HygieneLevel = 50.0f;
+	private const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
 	void Awake ()
 	{
@@ -65,10 +66,17 @@ public class GameManager : MonoBehaviour
 				newTask.transform.parent = TaskParents[nextEmptyGridPosition].transform;
 				newTask.transform.localPosition = Vector3.zero;
 
+				string randomString = chars[(int)(Random.value * 20)].ToString() + chars[(int)(Random.value * 20)].ToString() + chars[(int)(Random.value * 20)].ToString();
 				TaskManager newTaskManager = newTask.GetComponent<TaskManager>();
 				if (newTaskManager != null)
 				{
 					newTaskManager.SetGridPosition(nextEmptyGridPosition);
+					newTaskManager.keyStrokes = randomString;
+				}
+				TextMesh newTextMesh = newTask.GetComponent<TextMesh>();
+				if (newTextMesh != null)
+				{
+					newTextMesh.text = randomString;
 				}
 
 				Debug.Log("Spawned task " + newTask.name + " at grid position " + nextEmptyGridPosition);
@@ -80,19 +88,19 @@ public class GameManager : MonoBehaviour
 		HygieneMeterTransform.localScale = new Vector3(1.0f, HygieneLevel / 10.0f, 1.0f);
 	}
 
-	public void TaskCompleted(int pos)
+	public void TaskCompleted(TaskResult result)
 	{
-		GameObject completedTask = Grid.TaskInPosition[pos];
-		ActiveTasks.Remove(completedTask);
+		GameObject completedTask = Grid.TaskInPosition[result.gridPosition];
 		GameObject.Destroy(completedTask);
-		Grid.TaskInPosition[pos] = null;
+		ActiveTasks.Remove(completedTask);
+		Grid.TaskInPosition[result.gridPosition] = null;
+		Debug.Log("Task at " + result.gridPosition + " completed in " + result.completionTime + " seconds");
 	}
-
 }
 
 public class TaskResult
 {
-	int gridPosition;
-	float completionTime;
-	float completionPercentage;
+	public int gridPosition;
+	public float completionTime;
+	public float completionPercentage;
 }

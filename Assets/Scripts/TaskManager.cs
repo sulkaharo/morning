@@ -23,7 +23,10 @@ public class TaskManager : MonoBehaviour
 
 	private void TaskCompleted()
 	{
-		GameManager.Instance.TaskCompleted(gridPosition);
+		TaskResult result = new TaskResult();
+		result.gridPosition = gridPosition;
+		result.completionTime = Time.time - creationTime;
+		GameManager.Instance.TaskCompleted(result);
 	}
 
 	// Update is called once per frame
@@ -32,7 +35,9 @@ public class TaskManager : MonoBehaviour
 		if (keyNr == keyStrokes.Length) {
 			TaskCompleted ();
 		} else {
-			KeyCode key = (KeyCode)System.Enum.Parse (typeof(KeyCode), keyStrokes[keyNr].ToString ());
+			KeyCode key = (KeyCode)System.Enum.Parse(typeof(KeyCode), keyStrokes[keyNr].ToString(), true);
+
+			Debug.Log(key.ToString() + " sought");
 
 			bool down = Input.GetKeyDown (key);
 			bool held = Input.GetKey (key);
@@ -46,10 +51,11 @@ public class TaskManager : MonoBehaviour
 				keyNr++;
 			}
 		}
+		/*
 		if (Time.time > creationTime + LifeTime)
 		{
 			TaskCompleted();
 		}
-	
+	*/
 	}
 }
