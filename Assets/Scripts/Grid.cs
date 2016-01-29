@@ -5,12 +5,12 @@ public class GridDefinition
 {
 	public static int Size = 9;
 
-	public bool[] Occupied;
+	//public bool[] Occupied;
 	public GameObject[] TaskInPosition;
 
 	public GridDefinition()
 	{
-		Occupied = new bool[Size];
+		//Occupied = new bool[Size];
 		TaskInPosition = new GameObject[Size];
 		Debug.Log("Grid initialized, I think");
 		for (int i = 0; i < Size; i++ )
@@ -32,7 +32,6 @@ public class GridDefinition
 				break;
 			}
 		}
-
 		return firstFree;
 	}
 }

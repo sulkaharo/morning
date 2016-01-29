@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
 
 	public GameObject[] TaskParents;
 
+	public GameObject HygieneMeter;
+	private Transform HygieneMeterTransform;
+
 	//Official Game TIme
 	public float GameTime { get; private set; }
 	public float SpawnInterval = 2.0f;
@@ -20,6 +23,7 @@ public class GameManager : MonoBehaviour
 
 	private GridDefinition Grid;
 
+	private float HygieneLevel = 50.0f;
 
 	void Awake ()
 	{
@@ -37,55 +41,58 @@ public class GameManager : MonoBehaviour
 
 		Grid = new GridDefinition();
 
-		Debug.Log(Tasks.MorningTasks[0].name);
-	}
-
-	void Start()
-	{
-		/*
-		for (int i = 0; i < TaskParents.Length; i++)
-		{
-			ActiveTasks.Add(GameObject.Instantiate(Tasks.MorningTasks[Random.Range(0, Tasks.MorningTasks.Length)]));
-			//Bounds bbox = ActiveTasks[i].transform.
-			ActiveTasks[i].transform.parent = TaskParents[i].transform;
-			ActiveTasks[i].transform.localPosition = Vector3.zero;
-		}
-		*/
 		lastSpawnTime = 0.0f;
+		HygieneMeterTransform = HygieneMeter.transform;
+
+		//Debug.Log(Tasks.MorningTasks[0].name);
 	}
 
-	//Main game loop. Could be FixedUpdate() too?
+	//Main game loop. 
 	void Update ()
 	{
 		GameTime = Time.time - startTime;
 
 		if (GameTime > lastSpawnTime + SpawnInterval)
 		{
-			GameObject randomTask = Tasks.MorningTasks[Random.Range(0, Tasks.MorningTasks.Length)];
-			GameObject newTask = GameObject.Instantiate(randomTask);
-			ActiveTasks.Add(newTask);
 			int nextEmptyGridPosition = Grid.GetNextEmpty();
-			Grid.TaskInPosition[nextEmptyGridPosition] = newTask;
-			newTask.transform.parent = TaskParents[nextEmptyGridPosition].transform;
-			newTask.transform.localPosition = Vector3.zero;
-
-			TaskManager newTaskManager = newTask.GetComponent<TaskManager>();
-			if(newTaskManager != null)
+			if (nextEmptyGridPosition != -1)
 			{
-				newTaskManager.SetGridPosition(nextEmptyGridPosition);
-			}
+				GameObject randomTask = Tasks.MorningTasks[Random.Range(0, Tasks.MorningTasks.Length)];
+				GameObject newTask = GameObject.Instantiate(randomTask);
 
-			Debug.Log("Spawned task " + newTask.name + " at grid position " + nextEmptyGridPosition);
-			lastSpawnTime = GameTime;
+				ActiveTasks.Add(newTask);
+				Grid.TaskInPosition[nextEmptyGridPosition] = newTask;
+				newTask.transform.parent = TaskParents[nextEmptyGridPosition].transform;
+				newTask.transform.localPosition = Vector3.zero;
+
+				TaskManager newTaskManager = newTask.GetComponent<TaskManager>();
+				if (newTaskManager != null)
+				{
+					newTaskManager.SetGridPosition(nextEmptyGridPosition);
+				}
+
+				Debug.Log("Spawned task " + newTask.name + " at grid position " + nextEmptyGridPosition);
+				lastSpawnTime = GameTime;
+			}
 		}
+		Debug.Log("Active tasks " + ActiveTasks.Count);
+		HygieneLevel += (Random.value - 0.5f) * 1.0f;
+		HygieneMeterTransform.localScale = new Vector3(1.0f, HygieneLevel / 10.0f, 1.0f);
 	}
 
 	public void TaskCompleted(int pos)
 	{
 		GameObject completedTask = Grid.TaskInPosition[pos];
+		ActiveTasks.Remove(completedTask);
 		GameObject.Destroy(completedTask);
 		Grid.TaskInPosition[pos] = null;
 	}
 
+}
 
+public class TaskResult
+{
+	int gridPosition;
+	float completionTime;
+	float completionPercentage;
 }
