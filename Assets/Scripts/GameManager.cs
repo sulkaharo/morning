@@ -18,12 +18,15 @@ public class GameManager : MonoBehaviour
 		{
 			Destroy(gameObject);
 		}
-
 		Instance = this;
 
 		DontDestroyOnLoad(gameObject);
 
 		startTime = Time.time;
+
+		TasksResource Tasks = Resources.Load<TasksResource>("Tasks");
+
+		Debug.Log(Tasks.MorningTasks[0].name);
 	}
 
 	//Main game loop. Could be FixedUpdate() too?
