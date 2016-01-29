@@ -2,9 +2,6 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-
-
-
 public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance { get; private set; }
@@ -14,7 +11,6 @@ public class GameManager : MonoBehaviour
 	//Official Game TIme
 	public float GameTime { get; private set; }
 	public float SpawnInterval = 2.0f;
-
 
 	private float startTime, elapsedTime, lastSpawnTime;
 
@@ -73,9 +69,22 @@ public class GameManager : MonoBehaviour
 			newTask.transform.parent = TaskParents[nextEmptyGridPosition].transform;
 			newTask.transform.localPosition = Vector3.zero;
 
+			TaskManager newTaskManager = newTask.GetComponent<TaskManager>();
+			if(newTaskManager != null)
+			{
+				newTaskManager.SetGridPosition(nextEmptyGridPosition);
+			}
+
 			Debug.Log("Spawned task " + newTask.name + " at grid position " + nextEmptyGridPosition);
 			lastSpawnTime = GameTime;
 		}
+	}
+
+	public void TaskCompleted(int pos)
+	{
+		GameObject completedTask = Grid.TaskInPosition[pos];
+		GameObject.Destroy(completedTask);
+		Grid.TaskInPosition[pos] = null;
 	}
 
 

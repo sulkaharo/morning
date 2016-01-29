@@ -8,7 +8,7 @@ public class GridDefinition
 	public bool[] Occupied;
 	public GameObject[] TaskInPosition;
 
-	public void Grid()
+	public GridDefinition()
 	{
 		Occupied = new bool[Size];
 		TaskInPosition = new GameObject[Size];
