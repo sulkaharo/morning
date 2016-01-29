@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
 		DontDestroyOnLoad(gameObject);
 	}
 	
-
 	void Update ()
 	{
 	
