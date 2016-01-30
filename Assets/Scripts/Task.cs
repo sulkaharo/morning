@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Task : TaskManager
+public class Task 
 {
 	public string taskName;
 	public float creationTime;

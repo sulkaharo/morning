@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
 	private float HygieneLevel = 50.0f;
 	private const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	private static int dayStart = 6;
-	private static int dayEnd = 7;
+	private static int dayEnd = 8;
 
 	void Awake ()
 	{
@@ -107,38 +107,12 @@ public class GameManager : MonoBehaviour
 				newTask.transform.parent = TaskParents[nextEmptyGridPosition].transform;
 				newTask.transform.localPosition = Vector3.zero;
 
-				//string randomString = GetRandomString(2);
-				//Repetitioiden määrä
-				int randomInt = Random.Range(1,5);
-
-				TaskManager newTaskManager = newTask.GetComponent<TaskManager>();
+				TaskManagerBase newTaskManager = newTask.GetComponent<TaskManagerBase>();
 				if (newTaskManager != null)
 				{
 					newTaskManager.SetGridPosition(nextEmptyGridPosition);
-					//newTaskManager.keyStrokes = randomString;
-					newTaskManager.totalReps = randomInt;
 				}
 
-				MouseTaskManager newMouseTaskManager = newTask.GetComponent<MouseTaskManager>();
-				if (newMouseTaskManager != null)
-				{
-					newMouseTaskManager.SetGridPosition(nextEmptyGridPosition);
-				}
-
-				MouseSliderTaskManager newMouseSliderTaskManager = newTask.GetComponent<MouseSliderTaskManager>();
-				if (newMouseSliderTaskManager != null)
-				{
-					newMouseSliderTaskManager.SetGridPosition(nextEmptyGridPosition);
-				}
-				
-				TextMesh newTextMesh = newTask.GetComponent<TextMesh>();
-				if (newTextMesh != null && newTaskManager != null)
-				{
-					//newTextMesh.text = randomString + " " + randomInt.ToString();
-					newTextMesh.text = newTaskManager.keyStrokes.ToUpper() + " *" + randomInt.ToString();
-				}
-
-				//Debug.Log("Spawned task " + newTask.name + " at grid position " + nextEmptyGridPosition);
 				lastSpawnTime = GameTime;
 				SpawnInterval *= 0.96f;
 			}

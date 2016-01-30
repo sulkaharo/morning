@@ -2,10 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class MouseSliderTaskManager : MonoBehaviour
+public class MouseSliderTaskManager : TaskManagerBase
 {
-	public float LifeTime = 3.0f;
-
 	public int Repetitions = 5;
 	private int reps = 0;
 
@@ -15,13 +13,10 @@ public class MouseSliderTaskManager : MonoBehaviour
 	private Slider slider;
 	private Text text;
 
-	private float creationTime;
-	private int gridPosition = -1;
-
 	// Use this for initialization
-	void Start ()
+	public override void Start ()
 	{
-		creationTime = Time.time;
+		base.Start();
 
 		sliderGO = GameObject.Instantiate(SliderPrefab);
 		GameObject canvas = GameObject.Find("Canvas");
@@ -65,17 +60,11 @@ public class MouseSliderTaskManager : MonoBehaviour
 		}
 	}
 
-	public void SetGridPosition (int pos)
-	{
-		gridPosition = pos;
-	}
-
 	private void OnDestroy()
 	{
 		GameObject.Destroy(sliderGO);
 	}
-
-
+	/*
 	private void TaskCompleted()
 	{
 		TaskResult result = new TaskResult();
@@ -85,10 +74,15 @@ public class MouseSliderTaskManager : MonoBehaviour
 		result.completionPercentage = reps / Repetitions;
 		GameManager.Instance.TaskCompleted(result);
 	}
+	*/
 
 	// Update is called once per frame
-	void Update ()
+	public override void Update ()
 	{
+		progress = (float) reps / (float) Repetitions;
+
+		base.Update();
+
 		if(reps >= Repetitions)
 		{
 			TaskCompleted();

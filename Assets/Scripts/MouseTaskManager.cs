@@ -2,9 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class MouseTaskManager : MonoBehaviour
+public class MouseTaskManager : TaskManagerBase
 {
-	public float LifeTime = 3.0f;
 	public float ActionDelay = 1.0f;
 
 	public int Repetitions = 5;
@@ -16,14 +15,12 @@ public class MouseTaskManager : MonoBehaviour
 	private Button button;
 	private Text text;
 
-	private float creationTime;
 	private float lastActivationTime = 0.0f;
-	private int gridPosition = -1;
 
 	// Use this for initialization
-	void Start ()
+	public override void Start ()
 	{
-		creationTime = Time.time;
+		base.Start();
 
 		buttonGO = GameObject.Instantiate(ButtonPrefab);
 		GameObject canvas = GameObject.Find("Canvas");
@@ -79,16 +76,12 @@ public class MouseTaskManager : MonoBehaviour
 	}
 
 
-	public void SetGridPosition (int pos)
-	{
-		gridPosition = pos;
-	}
 
 	private void OnDestroy()
 	{
 		GameObject.Destroy(buttonGO);
 	}
-
+/*
 	private void TaskCompleted()
 	{
 		TaskResult result = new TaskResult();
@@ -98,10 +91,15 @@ public class MouseTaskManager : MonoBehaviour
 		result.completionPercentage = reps / Repetitions;
 		GameManager.Instance.TaskCompleted(result);
 	}
+	*/
 
 	// Update is called once per frame
-	void Update ()
+	public override void Update ()
 	{
+		progress = (float) reps / (float) Repetitions;
+
+		base.Update();
+
 		if(reps >= Repetitions)
 		{
 			TaskCompleted();
