@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
 	private float combinedTime;
 
 	private int day = 0;
+	private int dataDay = 0; // the day we access from data, might be less than the actual day if there is not enough data. 
 	private int hours, minutes;
 
 	private TasksResource Tasks;
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
 	private float HygieneLevel = 50.0f;
 	private const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	private static int dayStart = 6;
-	private static int dayEnd = 8;
+	private static int dayEnd = 7;
 
 	void Awake ()
 	{
@@ -98,7 +99,7 @@ public class GameManager : MonoBehaviour
 			int nextEmptyGridPosition = Grid.GetNextEmpty();
 			if (nextEmptyGridPosition != -1)
 			{
-				GameObject randomTask = Tasks.Days[day].Tasks[Random.Range(0, Tasks.Days[day].Tasks.Length)];
+				GameObject randomTask = Tasks.Days[dataDay].Tasks[Random.Range(0, Tasks.Days[dataDay].Tasks.Length)];
 				GameObject newTask = GameObject.Instantiate(randomTask);
 
 				ActiveTasks.Add(newTask);
@@ -186,7 +187,9 @@ public class GameManager : MonoBehaviour
 		lastSpawnTime = 0.0f;
 		GameTime = Time.time - startTime;
 
-		SpawnInterval = Tasks.Days[day].SpawnInterval;
+		dataDay = System.Math.Min(day, Tasks.Days.Length-1);
+
+		SpawnInterval = Tasks.Days[dataDay].SpawnInterval;
 
 		for (int i = 0; i < 9; i++)
 		{
@@ -198,7 +201,10 @@ public class GameManager : MonoBehaviour
 			}
 		}
 		DayText.text = "Day " + (day+1).ToString(); // +1 because the first day is day 1, not day 0
-		GameObject dayGO = GameObject.Instantiate(Tasks.Days[day].DayStartBillboard) as GameObject;
+		if (day < Tasks.Days.Length)
+		{
+			GameObject dayGO = GameObject.Instantiate(Tasks.Days[day].DayStartBillboard) as GameObject;
+		}
 	}
 
 
