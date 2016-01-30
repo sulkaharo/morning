@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 	private Transform HygieneMeterTransform;
 
 	public GameObject GameOverPrefab;
+	public GameObject TaskCompleteFX;
 
 	//Official Game TIme
 	public float GameTime { get; private set; }
@@ -68,7 +69,7 @@ public class GameManager : MonoBehaviour
 				newTask.transform.parent = TaskParents[nextEmptyGridPosition].transform;
 				newTask.transform.localPosition = Vector3.zero;
 
-				string randomString = GetRandomString(3);
+				string randomString = GetRandomString(2);
 				TaskManager newTaskManager = newTask.GetComponent<TaskManager>();
 				if (newTaskManager != null)
 				{
@@ -102,6 +103,11 @@ public class GameManager : MonoBehaviour
 		ActiveTasks.Remove(completedTask);
 		Grid.TaskInPosition[result.gridPosition] = null;
 		Debug.Log("Task at " + result.gridPosition + " completed in " + result.completionTime + " seconds");
+
+		GameObject FX = GameObject.Instantiate(TaskCompleteFX);
+
+		FX.transform.parent = TaskParents[result.gridPosition].transform;
+		FX.transform.localPosition = Vector3.zero;
 	}
 
 	private void GameOver()
