@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
 				newTask.transform.parent = TaskParents[nextEmptyGridPosition].transform;
 				newTask.transform.localPosition = Vector3.zero;
 
-				string randomString = GetRandomString(2);
+				//string randomString = GetRandomString(2);
 				//Repetitioiden määrä
 				int randomInt = Random.Range(1,5);
 
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
 				if (newTaskManager != null)
 				{
 					newTaskManager.SetGridPosition(nextEmptyGridPosition);
-					newTaskManager.keyStrokes = randomString;
+					//newTaskManager.keyStrokes = randomString;
 					newTaskManager.totalReps = randomInt;
 				}
 
@@ -92,14 +92,15 @@ public class GameManager : MonoBehaviour
 				}
 				
 				TextMesh newTextMesh = newTask.GetComponent<TextMesh>();
-				if (newTextMesh != null)
+				if (newTextMesh != null && newTaskManager != null)
 				{
-					newTextMesh.text = randomString + " " + randomInt.ToString();
+					//newTextMesh.text = randomString + " " + randomInt.ToString();
+					newTextMesh.text = newTaskManager.keyStrokes.ToUpper() + " *" + randomInt.ToString();
 				}
 
 				//Debug.Log("Spawned task " + newTask.name + " at grid position " + nextEmptyGridPosition);
 				lastSpawnTime = GameTime;
-				SpawnInterval *= 0.95f;
+				SpawnInterval *= 0.96f;
 			}
 			else
 			{
