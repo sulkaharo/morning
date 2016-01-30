@@ -34,7 +34,7 @@ public class MouseSliderTaskManager : MonoBehaviour
 			Debug.LogWarning("no ui canvas");
 		}
 
-		sliderGO.transform.position = transform.position + new Vector3(0.5f, 0.0f, 0.0f);
+		sliderGO.transform.position = transform.position + new Vector3(0.5f, -0.5f, 0.0f);
 
 		slider = sliderGO.GetComponent<Slider>();
 		if (slider != null)
@@ -43,7 +43,7 @@ public class MouseSliderTaskManager : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogWarning("no slider component in button prefab");
+			Debug.LogWarning("no slider component in slider prefab");
 		}
 
 		text = sliderGO.GetComponentInChildren<Text>();
@@ -53,7 +53,7 @@ public class MouseSliderTaskManager : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogWarning("no button component in button prefab");
+			Debug.LogWarning("no text component in slider prefab");
 		}
 	}
 

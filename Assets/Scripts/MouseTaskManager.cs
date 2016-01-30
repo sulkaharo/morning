@@ -36,7 +36,7 @@ public class MouseTaskManager : MonoBehaviour
 			Debug.LogWarning("no ui canvas");
 		}
 
-		buttonGO.transform.position = transform.position + new Vector3(0.5f, 0.0f, 0.0f);
+		buttonGO.transform.position = transform.position + new Vector3(0.5f, -0.5f, 0.0f);
 
 		button = buttonGO.GetComponent<Button>();
 		if (button != null)
@@ -55,7 +55,7 @@ public class MouseTaskManager : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogWarning("no button component in button prefab");
+			Debug.LogWarning("no text component in button prefab");
 		}
 	}
 	
