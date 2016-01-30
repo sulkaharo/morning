@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
 				newTask.transform.parent = TaskParents[nextEmptyGridPosition].transform;
 				newTask.transform.localPosition = Vector3.zero;
 
-				string randomString = chars[(int)(Random.value * 20)].ToString() + chars[(int)(Random.value * 20)].ToString() + chars[(int)(Random.value * 20)].ToString();
+				string randomString = GetRandomString(3);
 				TaskManager newTaskManager = newTask.GetComponent<TaskManager>();
 				if (newTaskManager != null)
 				{
@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour
 
 				Debug.Log("Spawned task " + newTask.name + " at grid position " + nextEmptyGridPosition);
 				lastSpawnTime = GameTime;
+				SpawnInterval *= 0.95f;
 			}
 			else
 			{
@@ -108,6 +109,15 @@ public class GameManager : MonoBehaviour
 		GameOverPrefab.SetActive(true);
 	}
 
+	private string GetRandomString(int length)
+	{
+		string str = "";
+		for (int i = 0; i < length; i++)
+		{
+			str += chars[(int)(Random.value * 26)].ToString();
+		}
+		return str;
+	}
 }
 
 
