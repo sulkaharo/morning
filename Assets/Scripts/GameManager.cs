@@ -27,14 +27,22 @@ public class GameManager : MonoBehaviour
 	private float combinedTime;
 
 	private int day = 0;
+	private int hours, minutes;
+
 	private TasksResource Tasks;
 
 	private List<GameObject> ActiveTasks = new List<GameObject>();
+	private GameObject ClockGO;
+	private TextMesh ClockText;
+	private GameObject DayGO;
+	private TextMesh DayText;
 
 	private GridDefinition Grid;
 
 	private float HygieneLevel = 50.0f;
 	private const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	private static int dayStart = 6;
+	private static int dayEnd = 8;
 
 	void Awake ()
 	{
@@ -52,6 +60,11 @@ public class GameManager : MonoBehaviour
 
 		Grid = new GridDefinition();
 
+		ClockGO = GameObject.Find("Time");
+		ClockText = ClockGO.GetComponent<TextMesh>();
+		DayGO = GameObject.Find("Day");
+		DayText = DayGO.GetComponent<TextMesh>();
+
 		scoreText = ScoreObject.GetComponent<UnityEngine.UI.Text>();
 		combinedTimeText = CombinedTimeObject.GetComponent<UnityEngine.UI.Text>();
 		completedTasksText = CompletedTasksObject.GetComponent<UnityEngine.UI.Text>();
@@ -63,7 +76,19 @@ public class GameManager : MonoBehaviour
 	//Main game loop. 
 	void Update ()
 	{
+
 		GameTime = Time.time - startTime;
+
+		int rawMinutes = (int) System.Math.Floor(GameTime * 3.0f);
+
+		minutes = rawMinutes % 60;
+		hours = dayStart + (rawMinutes - minutes) / 60;
+		ClockText.text = hours.ToString("D2") + ":" + minutes.ToString("D2");
+
+		if(hours >= dayEnd)
+		{
+			NextDay();
+		}
 
 		if (GameTime > lastSpawnTime + SpawnInterval)
 		{
@@ -150,6 +175,29 @@ public class GameManager : MonoBehaviour
 		completedTasksText.text = "Completed: " + completedTasks.ToString();
 
 	}
+
+	private void NextDay()
+	{
+		day++;
+		startTime = Time.time;
+		lastSpawnTime = 0.0f;
+		GameTime = Time.time - startTime;
+
+		SpawnInterval = Tasks.Days[day].SpawnInterval;
+
+		for (int i = 0; i < 9; i++)
+		{
+			GameObject completedTask = Grid.TaskInPosition[i];
+			if (completedTask != null)
+			{
+				GameObject.Destroy(completedTask);
+				ActiveTasks.Remove(completedTask);
+			}
+		}
+		DayText.text = "Day " + (day+1).ToString(); // +1 because the first day is day 1, not day 0
+		GameObject dayGO = GameObject.Instantiate(Tasks.Days[day].DayStartBillboard) as GameObject;
+	}
+
 
 	private void GameOver()
 	{

@@ -5,7 +5,8 @@ using System.Collections;
 [System.Serializable]
 public class Day
 {
-	public GameObject DayBillboard;
+	public GameObject DayStartBillboard;
+	public float SpawnInterval;
 	public GameObject[] Tasks;
 }
 
