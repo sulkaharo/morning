@@ -142,7 +142,7 @@ public class GameManager : MonoBehaviour
 		//update scores
 		completedTasks++;
 		combinedTime += result.completionTime;
-		int taskScore = 10 * (int) (result.completionTime / result.TimeoutTime);
+		int taskScore = (int) (10.0f * (result.TimeoutTime / (result.completionTime + 0.01f)));
 		score += taskScore;
 		scoreText.text = "Score: " + score.ToString();
 		combinedTimeText.text = "Task time: " + combinedTime.ToString();
