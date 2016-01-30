@@ -62,7 +62,7 @@ public class MouseTaskManager : MonoBehaviour
 	private void ButtonClicked()
 	{
 		reps++;
-		text.text = (Repetitions - reps).ToString();
+		
 		lastActivationTime = Time.time;
 		ButtonDisable();
 	}
@@ -70,6 +70,7 @@ public class MouseTaskManager : MonoBehaviour
 	private void ButtonEnable()
 	{
 		button.interactable = true;
+		text.text = (Repetitions - reps).ToString();
 	}
 
 	private void ButtonDisable()
@@ -105,9 +106,14 @@ public class MouseTaskManager : MonoBehaviour
 		{
 			TaskCompleted();
 		}
+
 		if (Time.time >= lastActivationTime + ActionDelay)
 		{
 			ButtonEnable();
+		}
+		if(button.interactable == false)
+		{
+			text.text = (1.0f - ((Time.time - lastActivationTime)/ActionDelay)).ToString();
 		}
 	}
 }
