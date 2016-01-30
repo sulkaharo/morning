@@ -84,6 +84,12 @@ public class GameManager : MonoBehaviour
 				{
 					newMouseTaskManager.SetGridPosition(nextEmptyGridPosition);
 				}
+
+				MouseSliderTaskManager newMouseSliderTaskManager = newTask.GetComponent<MouseSliderTaskManager>();
+				if (newMouseSliderTaskManager != null)
+				{
+					newMouseSliderTaskManager.SetGridPosition(nextEmptyGridPosition);
+				}
 				
 				TextMesh newTextMesh = newTask.GetComponent<TextMesh>();
 				if (newTextMesh != null)
