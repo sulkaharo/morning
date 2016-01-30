@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
 	private TextMesh ClockText;
 	private GameObject DayGO;
 	private TextMesh DayText;
+	private GameObject TimeBarGO;
 
 	private GridDefinition Grid;
 
@@ -64,6 +65,7 @@ public class GameManager : MonoBehaviour
 		ClockText = ClockGO.GetComponent<TextMesh>();
 		DayGO = GameObject.Find("Day");
 		DayText = DayGO.GetComponent<TextMesh>();
+		TimeBarGO = GameObject.Find("TimeBar");
 
 		scoreText = ScoreObject.GetComponent<UnityEngine.UI.Text>();
 		combinedTimeText = CombinedTimeObject.GetComponent<UnityEngine.UI.Text>();
@@ -145,6 +147,7 @@ public class GameManager : MonoBehaviour
 			}
 		}
 		//Debug.Log("Active tasks " + ActiveTasks.Count);
+		TimeBarGO.transform.localScale = new Vector3(1.0f - rawMinutes / (60.0f*(dayEnd-dayStart) ), 1.0f, 1.0f );
 		HygieneLevel += (Random.value - 0.6f) * 0.3f;
 		HygieneMeterTransform.localScale = new Vector3(1.0f, HygieneLevel / 10.0f, 1.0f);
 	}
