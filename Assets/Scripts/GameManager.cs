@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
 			}
 		}
 		//Debug.Log("Active tasks " + ActiveTasks.Count);
-		HygieneLevel += (Random.value - 0.6f) * 0.5f;
+		HygieneLevel += (Random.value - 0.6f) * 0.3f;
 		HygieneMeterTransform.localScale = new Vector3(1.0f, HygieneLevel / 10.0f, 1.0f);
 	}
 

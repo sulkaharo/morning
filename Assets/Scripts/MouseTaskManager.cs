@@ -5,6 +5,7 @@ using System.Collections;
 public class MouseTaskManager : MonoBehaviour
 {
 	public float LifeTime = 3.0f;
+	public float ActionDelay = 1.0f;
 
 	public int Repetitions = 5;
 	private int reps = 0;
@@ -16,6 +17,7 @@ public class MouseTaskManager : MonoBehaviour
 	private Text text;
 
 	private float creationTime;
+	private float lastActivationTime = 0.0f;
 	private int gridPosition = -1;
 
 	// Use this for initialization
@@ -61,6 +63,18 @@ public class MouseTaskManager : MonoBehaviour
 	{
 		reps++;
 		text.text = (Repetitions - reps).ToString();
+		lastActivationTime = Time.time;
+		ButtonDisable();
+	}
+
+	private void ButtonEnable()
+	{
+		button.interactable = true;
+	}
+
+	private void ButtonDisable()
+	{
+		button.interactable = false;
 	}
 
 
@@ -73,7 +87,6 @@ public class MouseTaskManager : MonoBehaviour
 	{
 		GameObject.Destroy(buttonGO);
 	}
-
 
 	private void TaskCompleted()
 	{
@@ -91,6 +104,10 @@ public class MouseTaskManager : MonoBehaviour
 		if(reps >= Repetitions)
 		{
 			TaskCompleted();
+		}
+		if (Time.time >= lastActivationTime + ActionDelay)
+		{
+			ButtonEnable();
 		}
 	}
 }
