@@ -4,11 +4,8 @@ using System.Collections;
 public class TaskManager : TaskManagerBase
 {
 	public string keyStrokes;
-	public int totalReps;
 
 	private int keyNr = 0;
-	private int repetitionNr = 0;
-
 
 	public override void Start()
 	{
@@ -17,21 +14,21 @@ public class TaskManager : TaskManagerBase
 		TextMesh newTextMesh = gameObject.GetComponent<TextMesh>();
 		if (newTextMesh != null)
 		{
-			newTextMesh.text = keyStrokes.ToUpper() + " *" + totalReps.ToString();
+			newTextMesh.text = keyStrokes.ToUpper() + " *" + TotalReps.ToString();
 		}
 
 	}
 
 	public override void Update ()
 	{
-		progress = (float)(keyNr + (repetitionNr * keyStrokes.Length)) / (float)(totalReps * keyStrokes.Length);
+		progress = (float)(keyNr + (repetitionNr * keyStrokes.Length)) / (float)(TotalReps * keyStrokes.Length);
 
 		base.Update();
 
 		if (keyNr == keyStrokes.Length) {
 			repetitionNr++;
 			keyNr = 0;
-			if(repetitionNr == totalReps) {
+			if(repetitionNr == TotalReps) {
 				TaskCompleted ();
 			}
 		} else {

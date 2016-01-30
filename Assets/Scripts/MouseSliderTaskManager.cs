@@ -4,9 +4,6 @@ using System.Collections;
 
 public class MouseSliderTaskManager : TaskManagerBase
 {
-	public int Repetitions = 5;
-	private int reps = 0;
-
 	public GameObject SliderPrefab;
 
 	private GameObject sliderGO;
@@ -44,7 +41,7 @@ public class MouseSliderTaskManager : TaskManagerBase
 		text = sliderGO.GetComponentInChildren<Text>();
 		if (text != null)
 		{
-			text.text = (Repetitions - reps).ToString();
+			text.text = (TotalReps - repetitionNr).ToString();
 		}
 		else
 		{
@@ -56,7 +53,7 @@ public class MouseSliderTaskManager : TaskManagerBase
 	{
 		if (val > 0.99f)
 		{
-			reps++;
+			repetitionNr++;
 		}
 	}
 
@@ -64,6 +61,7 @@ public class MouseSliderTaskManager : TaskManagerBase
 	{
 		GameObject.Destroy(sliderGO);
 	}
+
 	/*
 	private void TaskCompleted()
 	{
@@ -79,11 +77,11 @@ public class MouseSliderTaskManager : TaskManagerBase
 	// Update is called once per frame
 	public override void Update ()
 	{
-		progress = (float) reps / (float) Repetitions;
+		progress = (float) repetitionNr / (float) TotalReps;
 
 		base.Update();
 
-		if(reps >= Repetitions)
+		if(repetitionNr >= TotalReps)
 		{
 			TaskCompleted();
 		}

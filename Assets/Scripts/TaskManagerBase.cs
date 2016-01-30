@@ -4,6 +4,7 @@ using System.Collections;
 public class TaskManagerBase : MonoBehaviour
 {
 	public float LifeTime = 10.0f;
+	public int TotalReps = 5;
 	
 	public GameObject expirationBar;
 	public GameObject progressBarTemplate;
@@ -16,6 +17,7 @@ public class TaskManagerBase : MonoBehaviour
 	protected float creationTime;
 	protected int gridPosition = -1;
 	protected float progress = 0.0f;
+	protected int repetitionNr = 0;
 	
 	public virtual void Start ()
 	{
@@ -43,6 +45,7 @@ public class TaskManagerBase : MonoBehaviour
 		result.gridPosition = gridPosition;
 		result.completionTime = Time.time - creationTime;
 		result.TimeoutTime = LifeTime;
+		result.completionPercentage = repetitionNr / TotalReps;
 		GameManager.Instance.TaskCompleted(result);
 	}
 	

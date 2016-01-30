@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
 	public GameObject GameOverPrefab;
 	public GameObject TaskCompleteFX;
+	public GameObject TaskIncompleteFX;
 
 	public GameObject ScoreObject, CombinedTimeObject, CompletedTasksObject;
 	private UnityEngine.UI.Text scoreText, combinedTimeText, completedTasksText;
@@ -79,7 +80,6 @@ public class GameManager : MonoBehaviour
 	//Main game loop. 
 	void Update ()
 	{
-
 		GameTime = Time.time - startTime;
 
 		int rawMinutes = (int) System.Math.Floor(GameTime * 3.0f);
@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
 				GameOver();
 			}
 		}
-		//Debug.Log("Active tasks " + ActiveTasks.Count);
+
 		TimeBarGO.transform.localScale = new Vector3(1.0f - rawMinutes / (60.0f*(dayEnd-dayStart) ), 1.0f, 1.0f );
 		HygieneLevel += (Random.value - 0.6f) * 0.3f;
 		HygieneMeterTransform.localScale = new Vector3(1.0f, HygieneLevel / 10.0f, 1.0f);
@@ -132,20 +132,22 @@ public class GameManager : MonoBehaviour
 		GameObject completedTask = Grid.TaskInPosition[result.gridPosition];
 		GameObject.Destroy(completedTask);
 		ActiveTasks.Remove(completedTask);
-
 	
 		Grid.TaskInPosition[result.gridPosition] = null;
 		//Debug.Log("Task at " + result.gridPosition + " completed in " + result.completionTime + " seconds");
 
-		GameObject FX = GameObject.Instantiate(TaskCompleteFX);
+		bool success = result.completionPercentage > 0.99f;
+
+		GameObject FX = success ? GameObject.Instantiate(TaskCompleteFX) : GameObject.Instantiate(TaskIncompleteFX);
 
 		FX.transform.parent = TaskParents[result.gridPosition].transform;
 		FX.transform.localPosition = Vector3.zero;
 		HygieneLevel += 5.0f;
 
 		//update scores
-		completedTasks++;
+		if (success) completedTasks++;
 		combinedTime += result.completionTime;
+
 		int taskScore = (int) (10.0f * (result.TimeoutTime / (result.completionTime + 0.01f)));
 		score += taskScore;
 		scoreText.text = "Score: " + score.ToString();

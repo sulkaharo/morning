@@ -6,9 +6,6 @@ public class MouseTaskManager : TaskManagerBase
 {
 	public float ActionDelay = 1.0f;
 
-	public int Repetitions = 5;
-	private int reps = 0;
-
 	public GameObject ButtonPrefab;
 
 	private GameObject buttonGO;
@@ -48,7 +45,7 @@ public class MouseTaskManager : TaskManagerBase
 		text = buttonGO.GetComponentInChildren<Text>();
 		if (text != null)
 		{
-			text.text = (Repetitions - reps).ToString();
+			text.text = (TotalReps - repetitionNr).ToString();
 		}
 		else
 		{
@@ -58,7 +55,7 @@ public class MouseTaskManager : TaskManagerBase
 	
 	private void ButtonClicked()
 	{
-		reps++;
+		repetitionNr++;
 		
 		lastActivationTime = Time.time;
 		ButtonDisable();
@@ -67,7 +64,7 @@ public class MouseTaskManager : TaskManagerBase
 	private void ButtonEnable()
 	{
 		button.interactable = true;
-		text.text = (Repetitions - reps).ToString();
+		text.text = (TotalReps - repetitionNr).ToString();
 	}
 
 	private void ButtonDisable()
@@ -96,11 +93,11 @@ public class MouseTaskManager : TaskManagerBase
 	// Update is called once per frame
 	public override void Update ()
 	{
-		progress = (float) reps / (float) Repetitions;
+		progress = (float) repetitionNr / (float) TotalReps;
 
 		base.Update();
 
-		if(reps >= Repetitions)
+		if(repetitionNr >= TotalReps)
 		{
 			TaskCompleted();
 		}
