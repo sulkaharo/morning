@@ -14,11 +14,18 @@ public class GameManager : MonoBehaviour
 	public GameObject GameOverPrefab;
 	public GameObject TaskCompleteFX;
 
+	public GameObject ScoreObject, CombinedTimeObject, CompletedTasksObject;
+	private UnityEngine.UI.Text scoreText, combinedTimeText, completedTasksText;
+
 	//Official Game TIme
 	public float GameTime { get; private set; }
 	public float SpawnInterval = 2.0f;
 
 	private float startTime, elapsedTime, lastSpawnTime;
+	private int completedTasks = 0;
+	private int score = 0;
+	private float combinedTime;
+
 
 	private TasksResource Tasks;
 
@@ -44,6 +51,10 @@ public class GameManager : MonoBehaviour
 		Tasks = Resources.Load<TasksResource>("Tasks");
 
 		Grid = new GridDefinition();
+
+		scoreText = ScoreObject.GetComponent<UnityEngine.UI.Text>();
+		combinedTimeText = CombinedTimeObject.GetComponent<UnityEngine.UI.Text>();
+		completedTasksText = CompletedTasksObject.GetComponent<UnityEngine.UI.Text>();
 
 		lastSpawnTime = 0.0f;
 		HygieneMeterTransform = HygieneMeter.transform;
@@ -117,6 +128,8 @@ public class GameManager : MonoBehaviour
 		GameObject completedTask = Grid.TaskInPosition[result.gridPosition];
 		GameObject.Destroy(completedTask);
 		ActiveTasks.Remove(completedTask);
+
+	
 		Grid.TaskInPosition[result.gridPosition] = null;
 		//Debug.Log("Task at " + result.gridPosition + " completed in " + result.completionTime + " seconds");
 
@@ -125,6 +138,16 @@ public class GameManager : MonoBehaviour
 		FX.transform.parent = TaskParents[result.gridPosition].transform;
 		FX.transform.localPosition = Vector3.zero;
 		HygieneLevel += 5.0f;
+
+		//update scores
+		completedTasks++;
+		combinedTime += result.completionTime;
+		int taskScore = 10 * (int) (result.completionTime / result.TimeoutTime);
+		score += taskScore;
+		scoreText.text = "Score: " + score.ToString();
+		combinedTimeText.text = "Task time: " + combinedTime.ToString();
+		completedTasksText.text = "Completed: " + completedTasks.ToString();
+
 	}
 
 	private void GameOver()
