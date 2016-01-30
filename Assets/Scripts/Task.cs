@@ -3,6 +3,6 @@ using System.Collections;
 
 public class Task : TaskManager
 {
-	public string name;
+	public string taskName;
 	public float creationTime;
 }

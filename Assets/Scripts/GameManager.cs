@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour
 				string randomString = GetRandomString(2);
 				//Repetitioiden määrä
 				int randomInt = Random.Range(1,5);
+
 				TaskManager newTaskManager = newTask.GetComponent<TaskManager>();
 				if (newTaskManager != null)
 				{
@@ -77,13 +78,20 @@ public class GameManager : MonoBehaviour
 					newTaskManager.keyStrokes = randomString;
 					newTaskManager.totalReps = randomInt;
 				}
+
+				MouseTaskManager newMouseTaskManager = newTask.GetComponent<MouseTaskManager>();
+				if (newMouseTaskManager != null)
+				{
+					newMouseTaskManager.SetGridPosition(nextEmptyGridPosition);
+				}
+				
 				TextMesh newTextMesh = newTask.GetComponent<TextMesh>();
 				if (newTextMesh != null)
 				{
 					newTextMesh.text = randomString + " " + randomInt.ToString();
 				}
 
-				Debug.Log("Spawned task " + newTask.name + " at grid position " + nextEmptyGridPosition);
+				//Debug.Log("Spawned task " + newTask.name + " at grid position " + nextEmptyGridPosition);
 				lastSpawnTime = GameTime;
 				SpawnInterval *= 0.95f;
 			}
@@ -92,7 +100,7 @@ public class GameManager : MonoBehaviour
 				GameOver();
 			}
 		}
-		Debug.Log("Active tasks " + ActiveTasks.Count);
+		//Debug.Log("Active tasks " + ActiveTasks.Count);
 		HygieneLevel += (Random.value - 0.6f) * 0.5f;
 		HygieneMeterTransform.localScale = new Vector3(1.0f, HygieneLevel / 10.0f, 1.0f);
 	}
@@ -103,7 +111,7 @@ public class GameManager : MonoBehaviour
 		GameObject.Destroy(completedTask);
 		ActiveTasks.Remove(completedTask);
 		Grid.TaskInPosition[result.gridPosition] = null;
-		Debug.Log("Task at " + result.gridPosition + " completed in " + result.completionTime + " seconds");
+		//Debug.Log("Task at " + result.gridPosition + " completed in " + result.completionTime + " seconds");
 
 		GameObject FX = GameObject.Instantiate(TaskCompleteFX);
 
@@ -133,6 +141,9 @@ public class GameManager : MonoBehaviour
 public class TaskResult
 {
 	public int gridPosition;
+
 	public float completionTime;
-	public float completionPercentage;
+	public float TimeoutTime;
+
+	public float completionPercentage; // 0...1
 }
