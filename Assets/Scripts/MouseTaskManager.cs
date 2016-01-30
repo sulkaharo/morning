@@ -55,12 +55,10 @@ public class MouseTaskManager : MonoBehaviour
 		{
 			Debug.LogWarning("no button component in button prefab");
 		}
-
 	}
 	
 	private void ButtonClicked()
 	{
-		//Debug.Log("BUTTON clicked!");
 		reps++;
 		text.text = (Repetitions - reps).ToString();
 	}
@@ -73,7 +71,6 @@ public class MouseTaskManager : MonoBehaviour
 
 	private void OnDestroy()
 	{
-		Debug.Log("Trying to destroy Button");
 		GameObject.Destroy(buttonGO);
 	}
 
