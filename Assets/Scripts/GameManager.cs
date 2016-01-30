@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 	private int score = 0;
 	private float combinedTime;
 
-
+	private int day = 0;
 	private TasksResource Tasks;
 
 	private List<GameObject> ActiveTasks = new List<GameObject>();
@@ -67,10 +67,11 @@ public class GameManager : MonoBehaviour
 
 		if (GameTime > lastSpawnTime + SpawnInterval)
 		{
+			
 			int nextEmptyGridPosition = Grid.GetNextEmpty();
 			if (nextEmptyGridPosition != -1)
 			{
-				GameObject randomTask = Tasks.MorningTasks[Random.Range(0, Tasks.MorningTasks.Length)];
+				GameObject randomTask = Tasks.Days[day].Tasks[Random.Range(0, Tasks.Days[day].Tasks.Length)];
 				GameObject newTask = GameObject.Instantiate(randomTask);
 
 				ActiveTasks.Add(newTask);

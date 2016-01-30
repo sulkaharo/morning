@@ -8,14 +8,20 @@ public class TaskManager : MonoBehaviour
 	public int keyNr = 0;
 	public int repetitionNr = 0;
 	public int totalReps;
-	
+	public GameObject progressBarTemplate;
+	private GameObject progressBarGO;
+	private Transform progressT;
 	private float creationTime;
 	private int gridPosition = -1;
-	
+
 	// Use this for initialization
 	void Start ()
 	{
-		creationTime = Time.time;		
+		creationTime = Time.time;
+		GameObject progressBarGO = GameObject.Instantiate(progressBarTemplate) as GameObject;
+		progressT = progressBarGO.transform;
+		progressBarGO.transform.SetParent(gameObject.transform, false);
+		progressT.localPosition = new Vector3(0.0f, 1.0f, -6.0f);
 	}
 	
 	public void SetGridPosition (int pos)
@@ -34,6 +40,8 @@ public class TaskManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		progressT.localScale = new Vector3( (float)(keyNr + (repetitionNr * keyStrokes.Length)) / (float) (totalReps* keyStrokes.Length), 1.0f, 1.0f);
+
 		if (keyNr == keyStrokes.Length) {
 			repetitionNr++;
 			keyNr = 0;
