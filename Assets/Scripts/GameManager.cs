@@ -47,8 +47,6 @@ public class GameManager : MonoBehaviour
 
 		lastSpawnTime = 0.0f;
 		HygieneMeterTransform = HygieneMeter.transform;
-
-		//Debug.Log(Tasks.MorningTasks[0].name);
 	}
 
 	//Main game loop. 
@@ -92,7 +90,7 @@ public class GameManager : MonoBehaviour
 			}
 		}
 		Debug.Log("Active tasks " + ActiveTasks.Count);
-		HygieneLevel += (Random.value - 0.5f) * 1.0f;
+		HygieneLevel += (Random.value - 0.6f) * 0.5f;
 		HygieneMeterTransform.localScale = new Vector3(1.0f, HygieneLevel / 10.0f, 1.0f);
 	}
 
@@ -108,6 +106,7 @@ public class GameManager : MonoBehaviour
 
 		FX.transform.parent = TaskParents[result.gridPosition].transform;
 		FX.transform.localPosition = Vector3.zero;
+		HygieneLevel += 5.0f;
 	}
 
 	private void GameOver()
