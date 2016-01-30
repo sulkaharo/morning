@@ -6,10 +6,12 @@ public class TaskManager : MonoBehaviour
 	public float LifeTime = 3.0f;
 	public string keyStrokes;
 	public int keyNr = 0;
-
+	public int repetitionNr = 0;
+	public int totalReps;
+	
 	private float creationTime;
 	private int gridPosition = -1;
-
+	
 	// Use this for initialization
 	void Start ()
 	{
@@ -20,7 +22,7 @@ public class TaskManager : MonoBehaviour
 	{
 		gridPosition = pos;
 	}
-
+	
 	private void TaskCompleted()
 	{
 		TaskResult result = new TaskResult();
@@ -28,28 +30,32 @@ public class TaskManager : MonoBehaviour
 		result.completionTime = Time.time - creationTime;
 		GameManager.Instance.TaskCompleted(result);
 	}
-
+	
 	// Update is called once per frame
 	void Update ()
 	{
 		if (keyNr == keyStrokes.Length) {
-			TaskCompleted ();
+			repetitionNr++;
+			keyNr = 0;
+			if(repetitionNr == totalReps) {
+				TaskCompleted ();
+			}
 		} else {
 			KeyCode key = (KeyCode)System.Enum.Parse(typeof(KeyCode), keyStrokes[keyNr].ToString(), true);
-
+			
 			Debug.Log(key.ToString() + " sought");
-
+			
 			bool down = Input.GetKeyDown (key);
 			bool held = Input.GetKey (key);
-			bool up = Input.GetKeyUp (key);
-
+			//bool up = Input.GetKeyUp (key);
+			
 			if (down) {
 				keyNr++;
 			} else if (held) {
 				keyNr++;
-			} else if (up) {
+			} /*else if (up) {
 				keyNr++;
-			}
+			}*/
 		}
 		/*
 		if (Time.time > creationTime + LifeTime)
