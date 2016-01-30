@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 	public GameObject HygieneMeter;
 	private Transform HygieneMeterTransform;
 
+	public GameObject GameOverPrefab;
+
 	//Official Game TIme
 	public float GameTime { get; private set; }
 	public float SpawnInterval = 2.0f;
@@ -82,6 +84,10 @@ public class GameManager : MonoBehaviour
 				Debug.Log("Spawned task " + newTask.name + " at grid position " + nextEmptyGridPosition);
 				lastSpawnTime = GameTime;
 			}
+			else
+			{
+				GameOver();
+			}
 		}
 		Debug.Log("Active tasks " + ActiveTasks.Count);
 		HygieneLevel += (Random.value - 0.5f) * 1.0f;
@@ -96,7 +102,14 @@ public class GameManager : MonoBehaviour
 		Grid.TaskInPosition[result.gridPosition] = null;
 		Debug.Log("Task at " + result.gridPosition + " completed in " + result.completionTime + " seconds");
 	}
+
+	private void GameOver()
+	{
+		GameOverPrefab.SetActive(true);
+	}
+
 }
+
 
 public class TaskResult
 {
