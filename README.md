@@ -23,7 +23,7 @@ Eetu Martola, Mikko Kautto, Tuisku Haro, Sulka Haro
 Image sources
 -------
 
-https://www.flickr.com/photos/18_2rosadik36/8870176636/in/photolist-evPYtW-5hqCgu-unJMP-2TWwxn-iLfVpU-puwzu-rExUbS-gdHXpg-pxkGwb-nE8o8u-fVvF6v-7UbHcm-q3Jxdk-6Cg6Yy-2oJpDx-msp8qJ-jrUjow-75nUgs-e6U8kq-j7NZEU-daDSSK-5VW4N6-q9F44q-p9fzxo-nNaaTz-p2Exao-p7pa62-9EwYKR-r1nRYh-eiruUS-hZkQuH-tLgRsi-dppTEo-BvH3ND-o3Cen3-9YhvUr-mMULyD-2s3ze1-8qk4Xs-oMcQMm-gA5NZ5-ocSsjc-8oYSJe-6bTWaV-4HnzM-unJMM-vPhcVm-7xU4nm-pgo4yQ-bf1VgX
+[Startup scene Sunset from Flicr](https://www.flickr.com/photos/18_2rosadik36/8870176636/in/photolist-evPYtW-5hqCgu-unJMP-2TWwxn-iLfVpU-puwzu-rExUbS-gdHXpg-pxkGwb-nE8o8u-fVvF6v-7UbHcm-q3Jxdk-6Cg6Yy-2oJpDx-msp8qJ-jrUjow-75nUgs-e6U8kq-j7NZEU-daDSSK-5VW4N6-q9F44q-p9fzxo-nNaaTz-p2Exao-p7pa62-9EwYKR-r1nRYh-eiruUS-hZkQuH-tLgRsi-dppTEo-BvH3ND-o3Cen3-9YhvUr-mMULyD-2s3ze1-8qk4Xs-oMcQMm-gA5NZ5-ocSsjc-8oYSJe-6bTWaV-4HnzM-unJMM-vPhcVm-7xU4nm-pgo4yQ-bf1VgX)
 
 Font
 -------
