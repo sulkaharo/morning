@@ -11,18 +11,22 @@ public class MousePissTaskManager : TaskManagerBase
 	private GameObject pissGO;
 	private Transform pissT;
 
+	private Transform handleTrans;
+	private Image handleImage;
+
 	private float pissError = 0.0f;
 	private float pissErrorDelta = 0.0f;
 	private float pissCorrection = 0.0f;
 
+	public Color goodPissColor = new Color(1.0f, 0.9f, 0.4f);
+	public Color badPissColor = new Color(0.3f, 0.25f, 0.2f);
+
 	private Slider slider;
 	private Text text;
 
-	// Use this for initialization
 	public override void Start ()
 	{
 		base.Start();
-
 
 		pissGO = GameObject.Instantiate(PissPrefab);
 		pissT = pissGO.transform;
@@ -41,6 +45,18 @@ public class MousePissTaskManager : TaskManagerBase
 		}
 
 		sliderGO.transform.position = transform.position + new Vector3(0.5f, -0.5f, 0.0f);
+
+		handleTrans = sliderGO.transform.FindChild("Handle Slide Area").FindChild("Handle");
+		if (handleTrans != null)
+		{
+			handleImage = handleTrans.gameObject.GetComponent<Image>();
+			handleImage.color = goodPissColor;
+		}
+		else
+		{
+			Debug.LogWarning("no slider handle found");
+		}
+
 
 		slider = sliderGO.GetComponent<Slider>();
 		slider.value = 0.5f;
@@ -71,24 +87,22 @@ public class MousePissTaskManager : TaskManagerBase
 			repetitionNr++;
 		}
 		pissCorrection = -50.0f + 100.0f * val;
+
+		if (System.Math.Abs(pissError - pissCorrection) < 10) // need to hit with 10deg accuracy
+		{
+			handleImage.color = goodPissColor;
+		}
+		else
+		{
+			handleImage.color = badPissColor;
+		}
+
 	}
 
 	private void OnDestroy()
 	{
 		GameObject.Destroy(sliderGO);
 	}
-
-	/*
-	private void TaskCompleted()
-	{
-		TaskResult result = new TaskResult();
-		result.gridPosition = gridPosition;
-		result.completionTime = Time.time - creationTime;
-		result.TimeoutTime = LifeTime;
-		result.completionPercentage = reps / Repetitions;
-		GameManager.Instance.TaskCompleted(result);
-	}
-	*/
 
 	public void FixedUpdate()
 	{
@@ -99,14 +113,17 @@ public class MousePissTaskManager : TaskManagerBase
 		pissError = System.Math.Max(pissError, -50f);
 		pissError = System.Math.Min(pissError, 50f);
 
-		if (System.Math.Abs(pissError - pissCorrection) < 10)
+		if (System.Math.Abs(pissError - pissCorrection) < 10) // need to hit with 10deg accuracy
 		{
 			repetitionNr++;
+			handleImage.color = goodPissColor;
 		}
-
+		else
+		{
+			handleImage.color = badPissColor;
+		}
 	}
 
-	// Update is called once per frame
 	public override void Update ()
 	{
 		progress = (float) repetitionNr / (float) TotalReps;
