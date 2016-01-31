@@ -12,7 +12,6 @@ public class TaskManagerBase : MonoBehaviour
 	private GameObject expirationBarGO;
 	private Transform expirationT;
 	private Transform progressT;
-	private float expBarMultiplier = -0.1666f;
 
 	protected float creationTime;
 	protected int gridPosition = -1;

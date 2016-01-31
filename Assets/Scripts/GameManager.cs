@@ -8,8 +8,8 @@ public class GameManager : MonoBehaviour
 
 	public GameObject[] TaskParents;
 
-	public GameObject HygieneMeter;
-	private Transform HygieneMeterTransform;
+//	public GameObject HygieneMeter;
+//	private Transform HygieneMeterTransform;
 
 	public GameObject GameOverPrefab;
 	public GameObject TaskCompleteFX;
@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
 		completedTasksText = CompletedTasksObject.GetComponent<UnityEngine.UI.Text>();
 
 		lastSpawnTime = 0.0f;
-		HygieneMeterTransform = HygieneMeter.transform;
+		//HygieneMeterTransform = HygieneMeter.transform;
 	}
 
 	//Main game loop. 
@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
 
 		TimeBarGO.transform.localScale = new Vector3(1.0f - rawMinutes / (60.0f*(dayEnd-dayStart) ), 1.0f, 1.0f );
 		HygieneLevel += (Random.value - 0.6f) * 0.3f;
-		HygieneMeterTransform.localScale = new Vector3(1.0f, HygieneLevel / 10.0f, 1.0f);
+		//HygieneMeterTransform.localScale = new Vector3(1.0f, HygieneLevel / 10.0f, 1.0f);
 	}
 
 	public void TaskCompleted(TaskResult result)
@@ -179,7 +179,8 @@ public class GameManager : MonoBehaviour
 		DayText.text = "Day " + (day+1).ToString(); // +1 because the first day is day 1, not day 0
 		if (day < Tasks.Days.Length)
 		{
-			GameObject dayGO = GameObject.Instantiate(Tasks.Days[day].DayStartBillboard) as GameObject;
+			//GameObject dayGO = GameObject.Instantiate(Tasks.Days[day].DayStartBillboard) as GameObject;
+			GameObject.Instantiate(Tasks.Days[day].DayStartBillboard);
 		}
 	}
 
