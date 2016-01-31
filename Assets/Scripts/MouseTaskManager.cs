@@ -78,19 +78,7 @@ public class MouseTaskManager : TaskManagerBase
 	{
 		GameObject.Destroy(buttonGO);
 	}
-/*
-	private void TaskCompleted()
-	{
-		TaskResult result = new TaskResult();
-		result.gridPosition = gridPosition;
-		result.completionTime = Time.time - creationTime;
-		result.TimeoutTime = LifeTime;
-		result.completionPercentage = reps / Repetitions;
-		GameManager.Instance.TaskCompleted(result);
-	}
-	*/
 
-	// Update is called once per frame
 	public override void Update ()
 	{
 		progress = (float) repetitionNr / (float) TotalReps;
