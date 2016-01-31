@@ -199,24 +199,13 @@ public class GameManager : MonoBehaviour
 
 	private int ReadHighScore()
 	{
-		StreamReader sw = File.OpenText(Application.dataPath + "/" + highScoreFilename);
-		if (sw == null)
-		{
-			WriteHighScore(0);
-			return 0;
-		}
-		int highscore = System.Convert.ToInt32(sw.ReadLine());
-		sw.Close();
-		Debug.Log("Read highscore " + highscore);
+		int highscore = PlayerPrefs.GetInt("highscore");
 		return highscore;
 	}
 
 	private void WriteHighScore(int newhighscore)
 	{
-		Debug.Log("Wrote highscore " + newhighscore + " at " + Application.dataPath + "/" + highScoreFilename);
-		StreamWriter sw = File.CreateText(Application.dataPath + "/" + highScoreFilename);
-		sw.WriteLine(newhighscore.ToString());
-		sw.Close();
+		PlayerPrefs.SetInt ("highscore", newhighscore);
 	}
 
 	private void GameOver()
