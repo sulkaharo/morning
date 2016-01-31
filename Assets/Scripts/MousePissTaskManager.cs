@@ -44,7 +44,7 @@ public class MousePissTaskManager : TaskManagerBase
 			Debug.LogWarning("no ui canvas");
 		}
 
-		sliderGO.transform.position = transform.position + new Vector3(0.5f, -0.5f, 0.0f);
+		sliderGO.transform.position = transform.position + new Vector3(0.6f, -0.5f, 0.0f);
 
 		handleTrans = sliderGO.transform.FindChild("Handle Slide Area").FindChild("Handle");
 		if (handleTrans != null)
