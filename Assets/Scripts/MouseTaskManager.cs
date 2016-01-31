@@ -96,7 +96,7 @@ public class MouseTaskManager : TaskManagerBase
 		}
 		if(button.interactable == false)
 		{
-			text.text = (1.0f - ((Time.time - lastActivationTime)/ActionDelay)).ToString();
+			text.text = "cooldow " + (1.0f - ((Time.time - lastActivationTime)/ActionDelay)).ToString("0.00");
 		}
 	}
 }
