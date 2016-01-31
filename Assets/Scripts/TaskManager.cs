@@ -1,30 +1,50 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class TaskManager : TaskManagerBase
 {
 	public string keyStrokes;
-
+	public GameObject keyButton;
 	private int keyNr = 0;
-
+	private GameObject keyButtonGO;
+	private Transform keyButtonT;
+	private GameObject[] buttons = new GameObject[4];
+	
 	public override void Start()
 	{
-		base.Start();
-
-		TextMesh newTextMesh = gameObject.GetComponent<TextMesh>();
-		if (newTextMesh != null)
-		{
-			newTextMesh.text = keyStrokes.ToUpper() + " *" + TotalReps.ToString();
+		base.Start ();
+		
+		for (int i = 0; i < keyStrokes.Length; i++) {
+			keyButtonGO = GameObject.Instantiate (keyButton);
+			GameObject canvas = GameObject.Find ("Canvas");
+			if (canvas != null) {
+				keyButtonGO.transform.SetParent (canvas.transform, false);
+			} else {
+				Debug.LogWarning ("no ui canvas");
+			}
+			
+			keyButtonGO.transform.position = transform.position + new Vector3 (-0.6f + 0.65f * (float) i, -0.6f, -6.0f);
+			
+			TextMesh newTextMesh = keyButtonGO.GetComponentInChildren<TextMesh> ();
+			newTextMesh.text = keyStrokes[i].ToString ().ToUpper();
+			newTextMesh.transform.position = transform.position + new Vector3 (-0.80f + 0.65f * (float) i, -0.3f, -9.0f);
+			buttons[i] = keyButtonGO;
 		}
-
 	}
-
+	private void OnDestroy()
+	{
+		for (int i = 0; i < 4; i++) {
+			GameObject.Destroy (buttons[i]);
+		}
+	}
+	
 	public override void Update ()
 	{
 		progress = (float)(keyNr + (repetitionNr * keyStrokes.Length)) / (float)(TotalReps * keyStrokes.Length);
-
+		
 		base.Update();
-
+		
 		if (keyNr == keyStrokes.Length) {
 			repetitionNr++;
 			keyNr = 0;
@@ -49,6 +69,7 @@ public class TaskManager : TaskManagerBase
 				keyNr++;
 			}*/
 		}
+		
 		
 	}
 }
