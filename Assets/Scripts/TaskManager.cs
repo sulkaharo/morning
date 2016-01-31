@@ -28,7 +28,7 @@ public class TaskManager : TaskManagerBase
 			
 			TextMesh newTextMesh = keyButtonGO.GetComponentInChildren<TextMesh> ();
 			newTextMesh.text = keyStrokes[i].ToString ().ToUpper();
-			newTextMesh.transform.position = transform.position + new Vector3 (-0.80f + 0.65f * (float) i, -0.3f, -9.0f);
+			newTextMesh.transform.position = transform.position + new Vector3 (-0.80f + 0.65f * (float) i, -0.4f, -9.0f);
 			buttons[i] = keyButtonGO;
 		}
 	}
