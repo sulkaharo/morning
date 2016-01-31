@@ -12,7 +12,7 @@ public class TaskManagerBase : MonoBehaviour
 	private GameObject expirationBarGO;
 	private Transform expirationT;
 	private Transform progressT;
-
+	
 	protected float creationTime;
 	protected int gridPosition = -1;
 	protected float progress = 0.0f;
@@ -21,7 +21,7 @@ public class TaskManagerBase : MonoBehaviour
 	public virtual void Start ()
 	{
 		creationTime = Time.time;
-
+		
 		GameObject progressBarGO = GameObject.Instantiate(progressBarTemplate) as GameObject;
 		progressT = progressBarGO.transform;
 		progressBarGO.transform.SetParent(gameObject.transform, false);
@@ -30,7 +30,7 @@ public class TaskManagerBase : MonoBehaviour
 		GameObject expirationBarGO = GameObject.Instantiate (expirationBar) as GameObject;
 		expirationT = expirationBarGO.transform;
 		expirationBarGO.transform.SetParent(gameObject.transform, false);
-		expirationT.localPosition = new Vector3(-1.0f, 1.85f, -6.0f);
+		expirationT.localPosition = new Vector3(-1.0f, 1.9f, -6.0f);
 	}
 	
 	public void SetGridPosition (int pos)
@@ -53,7 +53,7 @@ public class TaskManagerBase : MonoBehaviour
 	{
 		progressT.localScale = new Vector3(progress * 1.5f, 1.5f, 1.0f);
 		//expirationT.localScale = new Vector3 (1.5f - (creationTime - Time.time) * (LifeTime * expBarMultiplier), 1.0f, 1.0f);
-		expirationT.localScale = new Vector3 (1.0f - (Time.time - creationTime) / LifeTime, 1.0f, 1.0f);
+		expirationT.localScale = new Vector3 (1.5f - (Time.time - creationTime) / LifeTime * 1.5f, 0.6f, 1.0f);
 		
 		if (Time.time > creationTime + LifeTime)
 		{
