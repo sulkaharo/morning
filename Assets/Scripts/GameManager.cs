@@ -169,6 +169,12 @@ public class GameManager : MonoBehaviour
 		if(success) score += taskScore;
 		scoreText.text = "Score: " + score.ToString();
 		completedTasksText.text = "Completed: " + completedTasks.ToString();
+
+		if (AudioManager.Instance != null)
+		{
+			AudioManager.Instance.PlaySound(SoundEffect.TaskComplete);
+		}
+
 	}
 
 	private void NextDay()
