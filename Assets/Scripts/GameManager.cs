@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
 	private static int dayStart = 6;
 	private static int dayEnd = 8;
 	private bool gameOver = false;
+	private int highScore = 0;
 
 	void Awake ()
 	{
@@ -75,7 +76,9 @@ public class GameManager : MonoBehaviour
 		highScoreText = HighScoreObject.GetComponent<UnityEngine.UI.Text>();
 		completedTasksText = CompletedTasksObject.GetComponent<UnityEngine.UI.Text>();
 
-		highScoreText.text = "High Score: " + ReadHighScore().ToString();
+		highScore = ReadHighScore();
+
+		highScoreText.text = "High Score: " + highScore.ToString();
 
 		lastSpawnTime = 0.0f;
 	}
@@ -208,11 +211,11 @@ public class GameManager : MonoBehaviour
 		return highscore;
 	}
 
-	private void WriteHighScore(int highScore)
+	private void WriteHighScore(int newhighscore)
 	{
-		Debug.Log("Wrote highscore " + highScore + " at " + Application.dataPath + "/" + highScoreFilename);
+		Debug.Log("Wrote highscore " + newhighscore + " at " + Application.dataPath + "/" + highScoreFilename);
 		StreamWriter sw = File.CreateText(Application.dataPath + "/" + highScoreFilename);
-		sw.WriteLine(highScore.ToString());
+		sw.WriteLine(newhighscore.ToString());
 		sw.Close();
 	}
 
@@ -222,7 +225,13 @@ public class GameManager : MonoBehaviour
 		NewGamePrefab.SetActive(true);
 		KillAllTasks();
 		gameOver = true;
-		WriteHighScore(score);
+
+		if (score > highScore)
+		{
+			highScore = score;
+			WriteHighScore(score);
+			highScoreText.text = "High Score: " + highScore.ToString();
+		}
 	}
 
 	public void NewGame()
@@ -234,14 +243,13 @@ public class GameManager : MonoBehaviour
 		gameOver = false;
 
 		SpawnInterval = Tasks.Days[0].SpawnInterval;
-		//KillAllTasks();
+
 		GameOverPrefab.SetActive(false);
 		NewGamePrefab.SetActive(false);
 
 		DayText.text = "Day " + (day + 1).ToString(); // +1 because the first day is day 1, not day 0
 		Start();
 	}
-
 
 	private void KillAllTasks()
 	{
