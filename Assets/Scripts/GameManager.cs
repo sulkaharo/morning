@@ -9,9 +9,6 @@ public class GameManager : MonoBehaviour
 
 	public GameObject[] TaskParents;
 
-//	public GameObject HygieneMeter;
-//	private Transform HygieneMeterTransform;
-
 	public GameObject GameOverPrefab;
 	public GameObject TaskCompleteFX;
 	public GameObject TaskIncompleteFX;
@@ -45,7 +42,6 @@ public class GameManager : MonoBehaviour
 
 	private GridDefinition Grid;
 
-	private float HygieneLevel = 50.0f;
 	private const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	private static string highScoreFilename = "highscore.txt";
 	private static int dayStart = 6;
@@ -81,7 +77,6 @@ public class GameManager : MonoBehaviour
 		highScoreText.text = "High Score: " + ReadHighScore().ToString();
 
 		lastSpawnTime = 0.0f;
-		//HygieneMeterTransform = HygieneMeter.transform;
 	}
 
 	void Start()
@@ -146,8 +141,6 @@ public class GameManager : MonoBehaviour
 		}
 
 		TimeBarGO.transform.localScale = new Vector3(1.0f - rawMinutes / (60.0f*(dayEnd-dayStart) ), 1.0f, 1.0f );
-		HygieneLevel += (Random.value - 0.6f) * 0.3f;
-		//HygieneMeterTransform.localScale = new Vector3(1.0f, HygieneLevel / 10.0f, 1.0f);
 	}
 
 	public void TaskCompleted(TaskResult result)
@@ -165,7 +158,6 @@ public class GameManager : MonoBehaviour
 
 		FX.transform.parent = TaskParents[result.gridPosition].transform;
 		FX.transform.localPosition = Vector3.zero;
-		HygieneLevel += 5.0f;
 
 		//update scores
 		if (success) completedTasks++;

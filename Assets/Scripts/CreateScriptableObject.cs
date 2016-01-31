@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEditor;
 using System;
  
+
+#if UNITY_EDITOR
 public class CreateScriptableObject
 {  
     [MenuItem("Assets/Create/ScriptableObject")]
@@ -13,3 +15,4 @@ public class CreateScriptableObject
         AssetDatabase.SaveAssets();
     }
 }
+#endif
