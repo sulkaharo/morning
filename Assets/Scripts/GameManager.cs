@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 	public GameObject[] TaskParents;
 
 	public GameObject GameOverPrefab;
+	public GameObject NewGamePrefab;
 	public GameObject TaskCompleteFX;
 	public GameObject TaskIncompleteFX;
 
@@ -81,6 +82,7 @@ public class GameManager : MonoBehaviour
 
 	void Start()
 	{
+		scoreText.text = "Score: " + score.ToString();
 		//spawn tutorial task
 		GameObject FTUETask = GameObject.Instantiate(TutorialTask);
 		ActiveTasks.Add(FTUETask);
@@ -194,10 +196,10 @@ public class GameManager : MonoBehaviour
 			WriteHighScore(0);
 			return 0;
 		}
-		score = System.Convert.ToInt32(sw.ReadLine());
+		int highscore = System.Convert.ToInt32(sw.ReadLine());
 		sw.Close();
-		Debug.Log("Read highscore " + score);
-		return score;
+		Debug.Log("Read highscore " + highscore);
+		return highscore;
 	}
 
 	private void WriteHighScore(int highScore)
@@ -211,10 +213,29 @@ public class GameManager : MonoBehaviour
 	private void GameOver()
 	{
 		GameOverPrefab.SetActive(true);
+		NewGamePrefab.SetActive(true);
 		KillAllTasks();
 		gameOver = true;
 		WriteHighScore(score);
 	}
+
+	public void NewGame()
+	{
+		score = 0;
+		day = dataDay = 0;
+		startTime = Time.time;
+		GameTime = lastSpawnTime = 0.0f;
+		gameOver = false;
+
+		SpawnInterval = Tasks.Days[0].SpawnInterval;
+		//KillAllTasks();
+		GameOverPrefab.SetActive(false);
+		NewGamePrefab.SetActive(false);
+
+		DayText.text = "Day " + (day + 1).ToString(); // +1 because the first day is day 1, not day 0
+		Start();
+	}
+
 
 	private void KillAllTasks()
 	{
@@ -230,7 +251,6 @@ public class GameManager : MonoBehaviour
 	}
 
 	private string GetRandomString(int length)
-
 	{
 		string str = "";
 		for (int i = 0; i < length; i++)
