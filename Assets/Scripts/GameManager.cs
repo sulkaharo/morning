@@ -177,11 +177,8 @@ public class GameManager : MonoBehaviour
 			}
 		}
 		DayText.text = "Day " + (day+1).ToString(); // +1 because the first day is day 1, not day 0
-		if (day < Tasks.Days.Length)
-		{
-			//GameObject dayGO = GameObject.Instantiate(Tasks.Days[day].DayStartBillboard) as GameObject;
-			GameObject.Instantiate(Tasks.Days[day].DayStartBillboard);
-		}
+		GameObject.Instantiate(Tasks.Days[dataDay].DayStartBillboard);
+
 	}
 
 

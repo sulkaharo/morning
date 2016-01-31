@@ -27,7 +27,7 @@ public class MousePissTaskManager : TaskManagerBase
 		pissGO = GameObject.Instantiate(PissPrefab);
 		pissT = pissGO.transform;
 		pissT.SetParent(gameObject.transform, false);
-		pissT.localPosition = new Vector3(0.35f, 0.0f, 0.0f);
+		pissT.localPosition = new Vector3(0.45f, 0.0f, 0.0f);
 
 		sliderGO = GameObject.Instantiate(SliderPrefab);
 		GameObject canvas = GameObject.Find("Canvas");
