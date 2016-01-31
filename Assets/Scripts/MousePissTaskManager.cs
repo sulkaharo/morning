@@ -19,7 +19,7 @@ public class MousePissTaskManager : TaskManagerBase
 	private float pissCorrection = 0.0f;
 
 	public Color goodPissColor = new Color(1.0f, 0.9f, 0.4f);
-	public Color badPissColor = new Color(0.3f, 0.25f, 0.2f);
+	public Color badPissColor = new Color(0.2f, 0.15f, 0.1f);
 
 	private Slider slider;
 	private Text text;
@@ -31,7 +31,7 @@ public class MousePissTaskManager : TaskManagerBase
 		pissGO = GameObject.Instantiate(PissPrefab);
 		pissT = pissGO.transform;
 		pissT.SetParent(gameObject.transform, false);
-		pissT.localPosition = new Vector3(0.45f, 0.0f, 0.0f);
+		pissT.localPosition = new Vector3(0.5f, 0.0f, 0.0f);
 
 		sliderGO = GameObject.Instantiate(SliderPrefab);
 		GameObject canvas = GameObject.Find("Canvas");
@@ -44,7 +44,7 @@ public class MousePissTaskManager : TaskManagerBase
 			Debug.LogWarning("no ui canvas");
 		}
 
-		sliderGO.transform.position = transform.position + new Vector3(0.6f, -0.5f, 0.0f);
+		sliderGO.transform.position = transform.position + new Vector3(0.5f, -0.5f, 0.0f);
 
 		handleTrans = sliderGO.transform.FindChild("Handle Slide Area").FindChild("Handle");
 		if (handleTrans != null)

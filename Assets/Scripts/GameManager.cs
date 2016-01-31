@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 	public GameObject TaskCompleteFX;
 	public GameObject TaskIncompleteFX;
 
+	public GameObject TutorialTask;
+
 	public GameObject ScoreObject, HighScoreObject, CompletedTasksObject;
 	private UnityEngine.UI.Text scoreText, highScoreText, completedTasksText;
 
@@ -79,6 +81,22 @@ public class GameManager : MonoBehaviour
 
 		lastSpawnTime = 0.0f;
 		//HygieneMeterTransform = HygieneMeter.transform;
+	}
+
+	void Start()
+	{
+		//spawn tutorial task
+		GameObject FTUETask = GameObject.Instantiate(TutorialTask);
+		ActiveTasks.Add(FTUETask);
+		Grid.TaskInPosition[4] = FTUETask;
+		FTUETask.transform.parent = TaskParents[4].transform;
+		FTUETask.transform.localPosition = Vector3.zero;
+
+		TaskManagerBase newTaskManager = FTUETask.GetComponent<TaskManagerBase>();
+		if (newTaskManager != null)
+		{
+			newTaskManager.SetGridPosition(4);
+		}
 	}
 
 	//Main game loop. 
