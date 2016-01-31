@@ -64,7 +64,7 @@ public class MouseTaskManager : TaskManagerBase
 	private void ButtonEnable()
 	{
 		button.interactable = true;
-		text.text = (TotalReps - repetitionNr).ToString();
+		text.text = "Clicks: " + (TotalReps - repetitionNr).ToString();
 	}
 
 	private void ButtonDisable()
