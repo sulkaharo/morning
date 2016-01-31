@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,8 +16,8 @@ public class GameManager : MonoBehaviour
 	public GameObject TaskCompleteFX;
 	public GameObject TaskIncompleteFX;
 
-	public GameObject ScoreObject, CombinedTimeObject, CompletedTasksObject;
-	private UnityEngine.UI.Text scoreText, combinedTimeText, completedTasksText;
+	public GameObject ScoreObject, HighScoreObject, CompletedTasksObject;
+	private UnityEngine.UI.Text scoreText, highScoreText, completedTasksText;
 
 	//Official Game TIme
 	public float GameTime { get; private set; }
@@ -44,6 +45,7 @@ public class GameManager : MonoBehaviour
 
 	private float HygieneLevel = 50.0f;
 	private const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	private static string highScoreFilename = "highscore.txt";
 	private static int dayStart = 6;
 	private static int dayEnd = 8;
 
@@ -70,8 +72,10 @@ public class GameManager : MonoBehaviour
 		TimeBarGO = GameObject.Find("TimeBar");
 
 		scoreText = ScoreObject.GetComponent<UnityEngine.UI.Text>();
-		combinedTimeText = CombinedTimeObject.GetComponent<UnityEngine.UI.Text>();
+		highScoreText = HighScoreObject.GetComponent<UnityEngine.UI.Text>();
 		completedTasksText = CompletedTasksObject.GetComponent<UnityEngine.UI.Text>();
+
+		highScoreText.text = "High Score: " + ReadHighScore().ToString();
 
 		lastSpawnTime = 0.0f;
 		//HygieneMeterTransform = HygieneMeter.transform;
@@ -149,11 +153,9 @@ public class GameManager : MonoBehaviour
 		combinedTime += result.completionTime;
 
 		int taskScore = (int) (10.0f * (result.TimeoutTime / (result.completionTime + 0.01f)));
-		score += taskScore;
+		if(success) score += taskScore;
 		scoreText.text = "Score: " + score.ToString();
-		combinedTimeText.text = "Task time: " + combinedTime.ToString();
 		completedTasksText.text = "Completed: " + completedTasks.ToString();
-
 	}
 
 	private void NextDay()
@@ -181,10 +183,32 @@ public class GameManager : MonoBehaviour
 
 	}
 
+	private int ReadHighScore()
+	{
+		StreamReader sw = File.OpenText(Application.dataPath + "/" + highScoreFilename);
+		if (sw == null)
+		{
+			WriteHighScore(0);
+			return 0;
+		}
+		score = System.Convert.ToInt32(sw.ReadLine());
+		sw.Close();
+		Debug.Log("Read highscore " + score);
+		return score;
+	}
+
+	private void WriteHighScore(int highScore)
+	{
+		Debug.Log("Wrote highscore " + highScore + " at " + Application.dataPath + "/" + highScoreFilename);
+		StreamWriter sw = File.CreateText(Application.dataPath + "/" + highScoreFilename);
+		sw.WriteLine(highScore.ToString());
+		sw.Close();
+	}
 
 	private void GameOver()
 	{
 		GameOverPrefab.SetActive(true);
+		WriteHighScore(score);
 	}
 
 	private string GetRandomString(int length)
