@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
 	private static string highScoreFilename = "highscore.txt";
 	private static int dayStart = 6;
 	private static int dayEnd = 8;
+	private bool gameOver = false;
 
 	void Awake ()
 	{
@@ -110,12 +111,12 @@ public class GameManager : MonoBehaviour
 		hours = dayStart + (rawMinutes - minutes) / 60;
 		ClockText.text = hours.ToString("D2") + ":" + minutes.ToString("D2");
 
-		if(hours >= dayEnd)
+		if(hours >= dayEnd && !gameOver)
 		{
 			NextDay();
 		}
 
-		if (GameTime > lastSpawnTime + SpawnInterval)
+		if (GameTime > lastSpawnTime + SpawnInterval && !gameOver)
 		{
 			
 			int nextEmptyGridPosition = Grid.GetNextEmpty();
@@ -138,7 +139,7 @@ public class GameManager : MonoBehaviour
 				lastSpawnTime = GameTime;
 				SpawnInterval *= 0.96f;
 			}
-			else
+			else if(!gameOver)
 			{
 				GameOver();
 			}
@@ -186,16 +187,8 @@ public class GameManager : MonoBehaviour
 		dataDay = System.Math.Min(day, Tasks.Days.Length-1);
 
 		SpawnInterval = Tasks.Days[dataDay].SpawnInterval;
+		KillAllTasks();
 
-		for (int i = 0; i < 9; i++)
-		{
-			GameObject completedTask = Grid.TaskInPosition[i];
-			if (completedTask != null)
-			{
-				GameObject.Destroy(completedTask);
-				ActiveTasks.Remove(completedTask);
-			}
-		}
 		DayText.text = "Day " + (day+1).ToString(); // +1 because the first day is day 1, not day 0
 		GameObject.Instantiate(Tasks.Days[dataDay].DayStartBillboard);
 
@@ -226,7 +219,22 @@ public class GameManager : MonoBehaviour
 	private void GameOver()
 	{
 		GameOverPrefab.SetActive(true);
+		KillAllTasks();
+		gameOver = true;
 		WriteHighScore(score);
+	}
+
+	private void KillAllTasks()
+	{
+		for (int i = 0; i < 9; i++)
+		{
+			GameObject completedTask = Grid.TaskInPosition[i];
+			if (completedTask != null)
+			{
+				GameObject.Destroy(completedTask);
+				ActiveTasks.Remove(completedTask);
+			}
+		}
 	}
 
 	private string GetRandomString(int length)
